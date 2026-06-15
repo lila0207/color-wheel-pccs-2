@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
     <title>16色潛意識心理測驗 & 心靈音樂配對</title>
     <style>
         body { font-family: 'PingFang TC', sans-serif; background-color: #f7f9fa; text-align: center; padding: 20px; color: #333; }
@@ -46,97 +47,21 @@
 </div>
 
 <script>
+// 16色資料庫 + YouTube 官方原生分享連結（更換網址格式以防錯誤）
 const colorDB = {
-    1: { name: "紅", hex: "#FF0000", c1: "充滿熱情、行動力強、天生的領導者。", c2: "近期面臨一些阻礙，內心感到有些急躁或受挫。", mName: "🎵 點我聆聽：【活力提升】輕快 R&B 療癒音樂", url: "https://www.youtube.com/watch?v=tVp7bSAtHwU" },
-    2: { name: "珊瑚橘", hex: "#FF7F50", c1: "情感細膩、非常重視人際關係與和諧。", c2: "近期可能在人際上受了點傷，因為過度迎合他人而感到疲憊。", mName: "🎵 點我聆聽：【溫暖心靈】不插電吉他放鬆輕音樂", url: "https://www.youtube.com/watch?v=GZ4K8EFrhBM" },
-    3: { name: "橙", hex: "#FFA500", c1: "社交達人，生性樂觀開朗，喜歡新鮮感與冒險。", c2: "現狀有些缺乏專注力，可能正試圖用外在刺激來逃避內心壓力。", mName: "🎵 點我聆聽：【陽光開朗】舒適 Chill Hop 節奏", url: "https://www.youtube.com/watch?v=77ZtG2wBpx4" },
-    4: { name: "金黃", hex: "#FFD700", c1: "自信且追求卓越，非常重視自己的核心價值。", c2: "對成功或未來感到焦慮，自我要求過高，害怕失敗。", mName: "🎵 點我聆聽：【阿爾法波】高效工作與專注腦波音樂", url: "https://www.youtube.com/watch?v=WPni755-KTo" },
-    5: { name: "黃", hex: "#FFFF00", c1: "好奇心旺盛、聰明且邏輯思維與學習力極強。", c2: "面臨某些重大抉擇，現狀思慮過度，有些神經質。", mName: "🎵 點我聆聽：【深層思考】沉靜大腦的鋼琴旋律", url: "https://www.youtube.com/watch?v=9QnvdZpbylo" },
-    6: { name: "橄欖綠", hex: "#808000", c1: "堅韌不拔、愛好和平，是極佳的調解者。", c2: "正處於某種忍耐的極限，感到委屈但仍試圖維持表面平衡。", mName: "🎵 點我聆聽：【和諧包容】西藏頌缽心靈冥想", url: "https://www.youtube.com/watch?v=4_A9Z-YvmsY" },
-    7: { name: "綠", hex: "#008000", c1: "追求和平與平衡，具有療癒他人的特質，重視安全感。", c2: "身心感到有些停滯不前，你的潛意識正在強烈發出「需要休息」的訊號。", mName: "🎵 點我聆聽：【森林療癒】大自然溪流與鳥鳴白噪音", url: "https://www.youtube.com/watch?v=mXZfSg6P89Y" },
-    8: { name: "碧綠", hex: "#40E0D0", c1: "富有創意與藝術家性格，極度追求精神上的自由。", c2: "當前在溝通或表達上遇到瓶頸，渴望展現真實自我卻覺得被壓抑。", mName: "🎵 點我聆聽：【自由靈感】慵懶新潮流 R&B 節奏", url: "https://www.youtube.com/watch?v=0YF8X2m1_g8" },
-    9: { name: "藍", hex: "#0000FF", c1: "冷靜、理性、值得信賴，做事情非常重視規矩與條理。", c2: "近期有壓抑情緒的傾向，內心感到些許孤獨，或正處於理性與感性的拉扯。", mName: "🎵 點我聆聽：【深夜陪伴】Lofi Girl 經典放鬆電台", url: "https://www.youtube.com/watch?v=jfKfPfyJRdk" },
-    10: { name: "海藍", hex: "#000080", c1: "深思熟慮、直覺敏銳，具備成熟的大局觀與智慧。", c2: "肩膀上正承擔著巨大的責任，心理壓力較大，現狀有些悲觀。", mName: "🎵 點我聆聽：【釋放壓力】唯美雨聲伴奏療癒鋼琴", url: "https://www.youtube.com/watch?v=q76bN0Gy6zo" },
-    11: { name: "紫", hex: "#800080", c1: "具備極高的靈性與神祕魅力，直覺與感應力極強。", c2: "精神感到有些疲竭，現實的繁雜讓你渴望尋求內心的平靜與依託。", mName: "🎵 點我聆聽：【修復能量】432Hz DNA細胞療癒頻率", url: "https://www.youtube.com/watch?v=3t-L_m_Y0pE" },
-    12: { name: "洋紅", hex: "#FF00FF", c1: "慷慨大方、懂得默默照顧他人，帶有完美主義特質。", c2: "現狀覺得自己的付出得不到對等回報，正過度消耗自己的能量。", mName: "🎵 點我聆聽：【溫柔自愛】SPA級身心全面放鬆音樂", url: "https://www.youtube.com/watch?v=8Z0bOshzpxY" },
-    13: { name: "粉紅", hex: "#FFC0CB", c1: "溫柔體貼、充滿愛心，追求浪漫與生活中的美感。", c2: "極度渴望被愛與被照顧，現狀心理防禦機制較弱，容易受外界影響。", mName: "🎵 點我聆聽：【浪漫舒適】甜蜜棉花糖爵士流行樂", url: "https://www.youtube.com/watch?v=8119-UvV6IE" },
-    14: { name: "白", hex: "#FFFFFF", c1: "追求純粹與誠實，對自己與他人都有極高的道德標準。", c2: "內心渴望將一切「重開機」，對現狀的複雜感到迷惘，想回歸簡單。", mName: "🎵 點我聆聽：【回歸純粹】極簡主義現代鋼琴獨奏", url: "https://www.youtube.com/watch?v=v770X68I1Wc" },
-    15: { name: "灰", hex: "#808080", c1: "中立、低調，不喜歡與人起衝突，善於隱藏鋒芒。", c2: "現狀有些逃避現實，將自己套上了保護色，不想對外界表明真實態度。", mName: "🎵 點我聆聽：【保護色】環境極簡流動微光音效", url: "https://www.youtube.com/watch?v=MooD8ZitFco" },
-    16: { name: "黑", hex: "#000000", c1: "意志堅定、有強烈神祕魅力，絕不隨波逐流。", c2: "正築起心牆，現狀感到有些孤立無援，或你正經歷人生重大的轉換期。", mName: "🎵 點我聆聽：【蛻變新生】深邃太空電影感沉浸音樂", url: "https://www.youtube.com/watch?v=uL0GAnY70rQ" }
-};
-
-let step = 1;
-let choice1 = null;
-let choice2 = null;
-
-function initTest() {
-    const grid = document.getElementById('color-grid');
-    grid.innerHTML = '';
-    for (let id in colorDB) {
-        const box = document.createElement('div');
-        box.className = 'color-box';
-        box.style.backgroundColor = colorDB[id].hex;
-        box.dataset.id = id;
-        box.onclick = () => selectColor(id);
-        grid.appendChild(box);
-    }
-}
-
-function selectColor(id) {
-    if (step === 1) {
-        choice1 = id;
-        document.getElementById(`color-grid`).children[id-1].classList.add('disabled');
-        document.getElementById('step-title').innerText = "第二步：請選出「第二個吸引你」的顏色";
-        document.getElementById('step-desc').innerText = "這個顏色代表你目前的潛意識現狀與面臨的挑戰。";
-        step = 2;
-    } else if (step === 2 && id !== choice1) {
-        choice2 = id;
-        showResult();
-    }
-}
-
-function showResult() {
-    document.getElementById('step-title').style.display = 'none';
-    document.getElementById('step-desc').style.display = 'none';
-    document.getElementById('color-grid').style.display = 'none';
-    
-    const r1 = colorDB[choice1];
-    const r2 = colorDB[choice2];
-    
-    document.getElementById('tag1').innerText = r1.name;
-    document.getElementById('tag1').style.backgroundColor = r1.hex;
-    document.getElementById('tag1').style.color = (choice1 == 14 || choice1 == 13 || choice1 == 5) ? '#333' : '#fff';
-    document.getElementById('analysis1').innerText = r1.c1;
-    
-    document.getElementById('tag2').innerText = r2.name;
-    document.getElementById('tag2').style.backgroundColor = r2.hex;
-    document.getElementById('tag2').style.color = (choice2 == 14 || choice2 == 13 || choice2 == 5) ? '#333' : '#fff';
-    document.getElementById('analysis2').innerText = r2.c2;
-    
-    // 改為生成一個漂亮的綠色跳轉按鈕，點擊後會用新分頁打開 YouTube
-    document.getElementById('music-container').innerHTML = `
-        <a href="${r2.url}" target="_blank" class="music-btn">${r2.mName}</a>
-    `;
-    
-    document.getElementById('result').style.display = 'block';
-}
-
-function resetTest() {
-    step = 1;
-    choice1 = null;
-    choice2 = null;
-    document.getElementById('step-title').style.display = 'block';
-    document.getElementById('step-title').innerText = "第一步：請憑直覺選出「最吸引你」的顏色";
-    document.getElementById('step-desc').style.display = 'block';
-    document.getElementById('step-desc').innerText = "這個顏色代表你內在真實的本質性格. ";
-    document.getElementById('color-grid').style.display = 'grid';
-    document.getElementById('result').style.display = 'none';
-    document.getElementById('music-container').innerHTML = '';
-    initTest();
-}
-
-initTest();
-</script>
-
-</body>
-</html>
+    1: { name: "紅", hex: "#FF0000", c1: "充滿熱情、行動力強、天生的領導者。", c2: "近期面臨一些阻礙，內心感到有些急躁或受挫。", mName: "🎵 點我聆聽：【活力提升】輕快 R&B 療癒音樂", url: "https://youtu.be/tVp7bSAtHwU" },
+    2: { name: "珊瑚橘", hex: "#FF7F50", c1: "情感細膩、非常重視人際關係與和諧。", c2: "近期可能在人際上受了點傷，因為過度迎合他人而感到疲憊。", mName: "🎵 點我聆聽：【溫慢心靈】不插電吉他放鬆輕音樂", url: "https://youtu.be/GZ4K8EFrhBM" },
+    3: { name: "橙", hex: "#FFA500", c1: "社交達人，生性樂觀開朗，喜歡新鮮感與冒險。", c2: "現狀有些缺乏專注力，可能正試圖用外在刺激來逃避內心壓力。", mName: "🎵 點我聆聽：【陽光開朗】舒適 Chill Hop 節奏", url: "https://youtu.be/77ZtG2wBpx4" },
+    4: { name: "金黃", hex: "#FFD700", c1: "自信且追求卓越，非常重視自己的核心價值。", c2: "對成功或未來感到焦慮，自我要求過高，害怕失敗。", mName: "🎵 點我聆聽：【阿爾法波】高效工作與專注腦波音樂", url: "https://youtu.be/WPni755-KTo" },
+    5: { name: "黃", hex: "#FFFF00", c1: "好奇心旺盛、聰明且邏輯思維與學習力極強。", c2: "面臨某些重大抉擇，現狀思慮過度，有些神經質。", mName: "🎵 點我聆聽：【深層思考】沉靜大腦的鋼琴旋律", url: "https://youtu.be/9QnvdZpbylo" },
+    6: { name: "橄欖綠", hex: "#808000", c1: "堅韌不拔、愛好和平，是極佳的調解者。", c2: "正處於某種忍耐的極限，感到委屈但仍試圖維持表面平衡。", mName: "🎵 點我聆聽：【和諧包容】西藏頌缽心靈冥想", url: "https://youtu.be/4_A9Z-YvmsY" },
+    7: { name: "綠", hex: "#008000", c1: "追求和平與平衡，具有療癒他人的特質，重視安全感。", c2: "身心感到有些停滯不前，你的潛意識正在強烈發出「需要休息」的訊號。", mName: "🎵 點我聆聽：【森林療癒】大自然溪流與鳥鳴白噪音", url: "https://youtu.be/mXZfSg6P89Y" },
+    8: { name: "碧綠", hex: "#40E0D0", c1: "富有創意與藝術家性格，極度追求精神上的自由。", c2: "當前在溝通或表達上遇到瓶頸，渴望展現真實自我卻覺得被壓抑。", mName: "🎵 點我聆聽：【自由靈感】慵懶新潮流 R&B 節奏", url: "https://youtu.be/0YF8X2m1_g8" },
+    9: { name: "藍", hex: "#0000FF", c1: "冷靜、理性、值得信賴，做事情非常重視規矩與條理。", c2: "近期有壓抑情緒的傾向，內心感到些許孤獨，或正處於理性與感性的拉扯。", mName: "🎵 點我聆聽：【深夜陪伴】Lofi Girl 經典放鬆電台", url: "https://youtu.be/jfKfPfyJRdk" },
+    10: { name: "海藍", hex: "#000080", c1: "深思熟慮、直覺敏銳，具備成熟的大局觀與智慧。", c2: "肩膀上正承擔著巨大的責任，心理壓力較大，現狀有些悲觀。", mName: "🎵 點我聆聽：【釋放壓力】唯美雨聲伴奏療癒鋼琴", url: "https://youtu.be/q76bN0Gy6zo" },
+    11: { name: "紫", hex: "#800080", c1: "具備極高的靈性與神祕魅力，直覺與感應力極強。", c2: "精神感到有些疲竭，現實的繁雜讓你渴望尋求內心的平靜與依託。", mName: "🎵 點我聆聽：【修復能量】432Hz DNA細胞療癒頻率", url: "https://youtu.be/3t-L_m_Y0pE" },
+    12: { name: "洋紅", hex: "#FF00FF", c1: "慷慨大方、懂得默默照顧他人，帶有完美主義特質。", c2: "現狀覺得自己的付出得不到對等回報，正過度消耗自己的能量。", mName: "🎵 點我聆聽：【溫柔自愛】SPA級身心全面放鬆音樂", url: "https://youtu.be/8Z0bOshzpxY" },
+    13: { name: "粉紅", hex: "#FFC0CB", c1: "溫柔體貼、充滿愛心，追求浪漫與生活中的美感。", c2: "極度渴望被愛與被照顧，現狀心理防禦機制較弱，容易受外界影響。", mName: "🎵 點我聆聽：【浪漫舒適】甜蜜棉花糖爵士流行樂", url: "https://youtu.be/8119-UvV6IE" },
+    14: { name: "白", hex: "#FFFFFF", c1: "追求純粹與誠實，對自己與他人都有極高的道德標準。", c2: "內心渴望將一切「重開機」，對現狀的複雜感到迷惘，想回歸簡單。", mName: "🎵 點我聆聽：【回歸純粹】極簡主義現代鋼琴獨奏", url: "https://youtu.be/v770X68I1Wc" },
+    15: { name: "灰", hex: "#808080", c1: "中立、低調，不喜歡與人起衝突，善於隱藏鋒芒。", c2: "現狀有些逃避現實，將自己套上了保護色，不想對外界表明真實態度。", mName: "🎵 點我聆聽：【保護色】環境極簡流動微光音效", url: "https://youtu.be/MooD8ZitFco" },
+    16: { name: "黑", hex: "#000000", c1: "意志堅定、有強烈神祕魅力，絕不隨波逐流。", c2: "正築起心牆，現狀感到有些孤立無援，或你正經歷人生重大的轉換期。", mName: "🎵 點我聆聽：【蛻變新生】深邃太空電影感沉浸音樂", url: "
